@@ -1,40 +1,27 @@
 import { create } from "zustand";
 
 import { TMessage } from "@/lib/types";
+import { generateMessage } from "./utils";
 
 type MessageStore = {
-  messages: Map<string, TMessage>;
+  messages: TMessage[];
+  addMessage(message: string): void;
 };
 
-const useMessageStore = create<MessageStore>()(() => ({
-  messages: new Map([
-    [
-      "1083a395-8628-4b04-b293-46119b9062c5",
-      {
-        id: "1083a395-8628-4b04-b293-46119b9062c5",
-        isFav: false,
-        isOwn: false,
-        status: "received",
-        createdAt: "2023-07-04T20:59:29-04:00",
-        message: {
-          content: '<p dir="ltr"><span>Test message</span></p>',
-        },
-      },
-    ],
-    [
-      "425448f6-9719-47fa-b6be-2adeac8ccc78",
-      {
-        id: "425448f6-9719-47fa-b6be-2adeac8ccc78",
-        isFav: false,
-        isOwn: false,
-        status: "received",
-        createdAt: "2023-07-04T20:59:29-04:00",
-        message: {
-          content: '<p dir="ltr"><span>Test message 2</span></p>',
-        },
-      },
-    ],
-  ]),
-}));
+export const useMessageStore = create<MessageStore>()((set) => ({
+  messages: [
+    {
+      id: "c55f7244-1678-46a4-844c-d4e88e5a42dd",
+      isFav: false,
+      isOwn: true,
+      status: "received",
+      createdAt: "2023-08-24T00:30:20-04:00",
+      body: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Mensaje de prueba","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+    }
+  ],
+  addMessage(body) {
+    const message = generateMessage(body);
 
-export default useMessageStore;
+    return set((state) => ({ messages: [...state.messages, message] }));
+  }
+}));
