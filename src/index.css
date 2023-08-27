@@ -87,3 +87,7 @@
     @apply bg-gray-400/50;
   }
 }
+
+.emoji {
+  font-family: "Noto Emoji", sans-serif;
+}
